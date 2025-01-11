@@ -4,29 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="83dd6dde-da32-4ed6-91b1-4bb63aed6fa0" name="Changes" comment="new">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Pages/OppViewMatches.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/qa/DayOne/Seeker/TestCases/oppViewMatchPageTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Config/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Config/config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Pages/BackgroundPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Pages/BackgroundPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Pages/DashboardPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Pages/DashboardPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Pages/DraftOppPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Pages/DraftOppPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Pages/LoginPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Pages/LoginPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Pages/OppPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Pages/OppPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Pages/ValuesPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Pages/ValuesPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Utils/TestUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Utils/TestUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Utils/WebDriverEventListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Utils/WebDriverEventListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Utils/WebDriverFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/Utils/WebDriverFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/base/TestBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qa/DayOne/Seeker/base/TestBase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/qa/DayOne/Seeker/TestCases/BackgroundPageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/qa/DayOne/Seeker/TestCases/BackgroundPageTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/qa/DayOne/Seeker/TestCases/DashboardPageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/qa/DayOne/Seeker/TestCases/DashboardPageTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/qa/DayOne/Seeker/TestCases/LoginPageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/qa/DayOne/Seeker/TestCases/LoginPageTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/qa/DayOne/Seeker/TestCases/OppPageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/qa/DayOne/Seeker/TestCases/OppPageTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/qa/DayOne/Seeker/TestCases/SaveDraftPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/qa/DayOne/Seeker/TestCases/SaveDraftPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/qa/DayOne/Seeker/TestCases/ValuesPageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/qa/DayOne/Seeker/TestCases/ValuesPageTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/resources/testNG.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/resources/testNG.xml" afterDir="false" />
-    </list>
+    <list default="true" id="83dd6dde-da32-4ed6-91b1-4bb63aed6fa0" name="Changes" comment="new" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -169,7 +147,14 @@
       <option name="project" value="LOCAL" />
       <updated>1734884110879</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="new">
+      <created>1736593626849</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1736593626851</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

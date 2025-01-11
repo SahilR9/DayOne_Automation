@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [DayOne App]" guice-stage="DEVELOPMENT">
+  <test thread-count="5" name="Regression(failed)">
+    <classes>
+      <class name="com.qa.DayOne.Seeker.TestCases.oppViewMatchPageTest">
+        <methods>
+          <include name="setUp"/>
+          <include name="firstTalentProfileView"/>
+          <include name="tearDown"/>
+        </methods>
+      </class> <!-- com.qa.DayOne.Seeker.TestCases.oppViewMatchPageTest -->
+    </classes>
+  </test> <!-- Regression(failed) -->
+</suite> <!-- Failed suite [DayOne App] -->
