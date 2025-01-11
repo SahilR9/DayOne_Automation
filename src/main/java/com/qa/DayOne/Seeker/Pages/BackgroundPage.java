@@ -2,6 +2,7 @@ package com.qa.DayOne.Seeker.Pages;
 
 import com.qa.DayOne.Seeker.Utils.TestUtils;
 import com.qa.DayOne.Seeker.base.TestBase;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -62,12 +63,16 @@ public class BackgroundPage extends TestBase {
 
 
     public String verifyBackgroundPageTitle(){
+        TestUtils.waitForTitle(driver, "Day One - Background", 20);
         return driver.getTitle();
     }
 
     public void fillCompanyStory(String story) {
         TestUtils.waitForElementVisibility(driver, comStory, 4);
-        comStory.clear();
+        if (!comStory.getText().isEmpty()) {
+            comStory.sendKeys(Keys.CONTROL + "a");  // Select all text
+            comStory.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
+        }
         comStory.sendKeys(story);
         TestUtils.waitForElementVisibility(driver, comStory, 4);
 
@@ -75,7 +80,11 @@ public class BackgroundPage extends TestBase {
 
     public void fillProducts(String prod) {
         TestUtils.waitForElementVisibility(driver, products , 4);
-        products.clear();
+        if (!products.getText().isEmpty()) {
+            products.sendKeys(Keys.CONTROL + "a");  // Select all text
+            products.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
+        }
+
         products.sendKeys(prod);
         TestUtils.waitForElementVisibility(driver, products , 4);
 
@@ -83,7 +92,10 @@ public class BackgroundPage extends TestBase {
 
     public void fillCustomerHelp(String help) {
         TestUtils.waitForElementVisibility(driver, customerHelp, 4);
-        customerHelp.clear();
+        if (!customerHelp.getText().isEmpty()) {
+            customerHelp.sendKeys(Keys.CONTROL + "a");  // Select all text
+            customerHelp.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
+        }
 
         customerHelp.sendKeys(help);
         TestUtils.waitForElementVisibility(driver, customerHelp, 4);
@@ -91,14 +103,19 @@ public class BackgroundPage extends TestBase {
     }
 
     public void fillUniqueFeature(String uni) {
-        unique.clear();
-
+        if (!unique.getText().isEmpty()) {
+            unique.sendKeys(Keys.CONTROL + "a");  // Select all text
+            unique.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
+        }
         unique.sendKeys(uni);
     }
 
     // Award Details
     public void fillAwardTitle(String title) {
-        awardTitle.clear();
+        if (!awardTitle.getAttribute("value").isEmpty()) {
+            awardTitle.sendKeys(Keys.CONTROL + "a");  // Select all text
+            awardTitle.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
+        }
         awardTitle.sendKeys(title);
         TestUtils.waitForElementVisibility(driver, awardTitle, 4);
 
@@ -110,7 +127,12 @@ public class BackgroundPage extends TestBase {
 
     public void fillAwardDescription(String description) {
         TestUtils.waitForElementVisibility(driver, awardDescription, 4);
-        awardDescription.clear();
+
+        if (!awardDescription.getText().isEmpty()) {
+            awardDescription.sendKeys(Keys.CONTROL + "a");  // Select all text
+            awardDescription.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
+        }
+
 
         awardDescription.sendKeys(description);
 
@@ -120,27 +142,42 @@ public class BackgroundPage extends TestBase {
 
     // Social Media Links
     public void fillLinkedIn(String linked) {
-        linkedIn.clear();
+        if (!linkedIn.getAttribute("value").isEmpty()) {
+            linkedIn.sendKeys(Keys.CONTROL + "a");  // Select all text
+            linkedIn.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
+        }
         linkedIn.sendKeys(linked);
     }
 
     public void fillX(String xt) {
-        x.clear();
+        if (!x.getAttribute("value").isEmpty()) {
+            x.sendKeys(Keys.CONTROL + "a");  // Select all text
+            x.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
+        }
         x.sendKeys(xt);
     }
 
     public void fillFacebook(String fb) {
-        facebook.clear();
+        if (!facebook.getAttribute("value").isEmpty()) {
+            facebook.sendKeys(Keys.CONTROL + "a");  // Select all text
+            facebook.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
+        }
         facebook.sendKeys(fb);
     }
 
     public void fillInstagram(String insta) {
-        instagram.clear();
+        if (!instagram.getAttribute("value").isEmpty()) {
+            instagram.sendKeys(Keys.CONTROL + "a");  // Select all text
+            instagram.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
+        }
         instagram.sendKeys(insta);
     }
 
     public void fillTiktok(String tik) {
-        tiktok.clear();
+        if (!tiktok.getAttribute("value").isEmpty()) {
+            tiktok.sendKeys(Keys.CONTROL + "a");  // Select all text
+            tiktok.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
+        }
         tiktok.sendKeys(tik);
     }
 

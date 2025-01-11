@@ -3,6 +3,7 @@ package com.qa.DayOne.Seeker.TestCases;
 import com.qa.DayOne.Seeker.Pages.*;
 import com.qa.DayOne.Seeker.Utils.TestUtils;
 import com.qa.DayOne.Seeker.base.TestBase;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -31,6 +32,36 @@ public class SaveDraftPage extends TestBase {
 
     }
 
+    private Map<String, String> loadTestData() {
+        Map<String, String> data = new LinkedHashMap<>();
+        String currentDateTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String dynamicTitle = pr.getProperty("opptitle").replace("${currentDateTime}", currentDateTime);
+        data.put("title", dynamicTitle);
+        data.put("location", pr.getProperty("location"));
+        data.put("opportunityType", pr.getProperty("opportunityType"));
+        data.put("workShift", pr.getProperty("workShift"));
+        data.put("workArrangement", pr.getProperty("workArrangement"));
+        data.put("workHours", pr.getProperty("workHours"));
+        data.put("skill1", pr.getProperty("skill1"));
+        data.put("skill2", pr.getProperty("skill2"));
+        data.put("contactName", pr.getProperty("contactName"));
+        data.put("contactEmail", pr.getProperty("contactEmail"));
+        data.put("opportunityDuration", pr.getProperty("opportunityDuration"));
+        data.put("totalPositions", pr.getProperty("totalPositions"));
+        data.put("jobDescription", pr.getProperty("jobDescription"));
+        data.put("listOfResponsibilities", pr.getProperty("listOfResponsibilities"));
+        data.put("salaryFrom", pr.getProperty("salaryFrom"));
+        data.put("salaryTo", pr.getProperty("salaryTo"));
+        data.put("numberOfHolidays", pr.getProperty("numberOfHolidays"));
+        data.put("benefit1", pr.getProperty("benefit1"));
+        data.put("benefit2", pr.getProperty("benefit2"));
+        data.put("qualification1", pr.getProperty("qualification1"));
+        data.put("qualification2", pr.getProperty("qualification2"));
+        data.put("qualificationStage1", pr.getProperty("qualificationStage1"));
+        data.put("additionalComments", pr.getProperty("additionalComments"));
+        return data;
+    }
+
     @BeforeMethod
     public void setUp() throws IOException {
         initialisation();
@@ -43,50 +74,22 @@ public class SaveDraftPage extends TestBase {
         draftOppPage = new DraftOppPage();
         softAssert = new SoftAssert();
 
-        // Load test data from config.properties using pr.getProperty()
-        testData = new LinkedHashMap<>();
-        String currentDateTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String dynamicTitle = pr.getProperty("opptitle").replace("${currentDateTime}", currentDateTime);
-        testData.put("title", dynamicTitle);
-        testData.put("locationEdit", pr.getProperty("locationEdit"));
-        testData.put("opportunityTypeEdit", pr.getProperty("opportunityTypeEdit"));
-        testData.put("workShiftEdit", pr.getProperty("workShiftEdit"));
-        testData.put("workArrangementEdit", pr.getProperty("workArrangementEdit"));
-        testData.put("workHoursEdit", pr.getProperty("workHoursEdit"));
-        testData.put("skill1Edit", pr.getProperty("skill1"));
-        testData.put("skill2Edit", pr.getProperty("skill2"));
-        testData.put("contactNameEdit", pr.getProperty("contactNameEdit"));
-        testData.put("contactEmailEdit", pr.getProperty("contactEmailEdit"));
-        testData.put("opportunityDurationEdit", pr.getProperty("opportunityDurationEdit"));
-        testData.put("totalPositionsEdit", pr.getProperty("totalPositionsEdit"));
-        testData.put("jobDescriptionEdit", pr.getProperty("jobDescriptionEdit"));
-        testData.put("listOfResponsibilitiesEdit", pr.getProperty("listOfResponsibilitiesEdit"));
-        testData.put("salaryFromEdit", pr.getProperty("salaryFromEdit"));
-        testData.put("salaryToEdit", pr.getProperty("salaryToEdit"));
-        testData.put("numberOfHolidaysEdit", pr.getProperty("numberOfHolidaysEdit"));
-        testData.put("benefit1Edit", pr.getProperty("benefit1"));
-        testData.put("benefit2Edit", pr.getProperty("benefit2"));
-        testData.put("qualification1Edit", pr.getProperty("qualification1Edit"));
-        testData.put("qualification2Edit", pr.getProperty("qualification2Edit"));
-        testData.put("qualificationStage1Edit", pr.getProperty("qualificationStage1Edit"));
-        testData.put("additionalCommentsEdit", pr.getProperty("additionalCommentsEdit"));
-
-
-
+        // Load test data
+        testData = loadTestData();
     }
 
     @Test(priority = 1)
     public void verifyEditDraftPageTest(){
         draftOppPage = dashboardpage.clickOnDraftOpportunity();
         String titleBackground = draftOppPage.verifyDraftPageTitle();
-        softAssert.assertEquals(titleBackground, "Day One", "Login page title matches!");
+        softAssert.assertEquals(titleBackground, "Day One - Dashboard", "Draft Page didn't matche!");
 
         draftOppPage.clickOnDraftOpp(TestUtils.opportunityName);
         draftOppPage.clickOnEditDraft();
         boolean saveDraftButtonDisplay = oppPage.verifySaveasDraftButton();
         softAssert.assertTrue(saveDraftButtonDisplay, "Save as Draft button is not visible");
 
-        draftOppPage.clickeditTitle();
+        draftOppPage.clickEditTitle();
 
         for (Map.Entry<String, String> entry : testData.entrySet()) {
             String fieldKey = entry.getKey();
@@ -99,21 +102,25 @@ public class SaveDraftPage extends TestBase {
                     oppPage.titleClick();
                     break;
 
-                case "opportunityTypeEdit":
-                    oppPage.selectOpportunityType(expectedValue);
-                    softAssert.assertTrue(oppPage.getOppTypeRadio().isSelected(), "Opportunity Type Radio button not selected");
+                case "opportunityType":
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement oppTypeRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(oppTypeRadio.isSelected(), "Opportunity Type Radio button not selected");
                     break;
-                case "workShiftEdit":
-                    oppPage.selectWorkShift(expectedValue);
-                    softAssert.assertTrue(oppPage.getWorkShiftRadio().isSelected(), "Work Shift Radio button not selected");
+                case "workShift":
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement WorkShiftRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(WorkShiftRadio.isSelected(), "Work Shift Radio button not selected");
                     break;
-                case "workArrangementEdit":
-                    oppPage.selectWorkArrangement(expectedValue);
-                    softAssert.assertTrue(oppPage.getWorkArrangementRadio().isSelected(), "Work Arrangement Radio button not selected");
+                case "workArrangement":
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement WorkArrangementRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(WorkArrangementRadio.isSelected(), "Work Arrangement Radio button not selected");
                     break;
-                case "workHoursEdit":
-                    oppPage.selectWorkHours(expectedValue);
-                    softAssert.assertTrue(oppPage.getWorkHoursRadio().isSelected(), "Work Hours Radio button not selected");
+                case "workHours":
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement WorkHoursRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(WorkHoursRadio.isSelected(), "Work Hours Radio button not selected");
                     break;
 
                 case "contactNameEdit":
@@ -185,7 +192,7 @@ public class SaveDraftPage extends TestBase {
         oppPage.clickPublish();
 
         String dashboartitle = dashboardpage.verifyDashboardPageTitle();
-        softAssert.assertEquals(dashboartitle, "Day One", "DashboardPage title didn't match!");
+        softAssert.assertEquals(dashboartitle, "Day One - Dashboard", "DashboardPage title didn't match!");
 
         boolean dashnav = dashboardpage.verifyDashboardNav();
         softAssert.assertTrue(dashnav, "Dashboard button is not visible");

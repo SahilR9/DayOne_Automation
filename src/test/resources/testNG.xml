@@ -3,7 +3,26 @@
 <suite name="DayOne App">
     <test name="Regression">
         <classes>
-            <class name="com.qa.DayOne.Seeker.TestCases.LoginPageTest"/>
+            <class name="com.qa.DayOne.Seeker.TestCases.OppPageTest"/>
+            <class name="com.qa.DayOne.Seeker.TestCases.oppViewMatchPageTest"/>
+
+
+
         </classes>
     </test> <!-- Test -->
 </suite> <!-- Suite -->
+
+
+<!--<class name="com.qa.DayOne.Seeker.TestCases.LoginPageTest"/>-->
+<!--<class name="com.qa.DayOne.Seeker.TestCases.DashboardPageTest"/>-->
+<!--<class name="com.qa.DayOne.Seeker.TestCases.BackgroundPageTest"/>-->
+<!--<class name="com.qa.DayOne.Seeker.TestCases.ValuesPageTest"/>-->
+<!--<class name="com.qa.DayOne.Seeker.TestCases.OppPageTest"/>-->
+<!--<class name="com.qa.DayOne.Seeker.TestCases.SaveDraftPage"/>-->
+
+
+
+
+
+
+

@@ -2,6 +2,7 @@ package com.qa.DayOne.Seeker.Pages;
 
 import com.qa.DayOne.Seeker.Utils.TestUtils;
 import com.qa.DayOne.Seeker.base.TestBase;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -39,6 +40,7 @@ public class ValuesPage extends TestBase {
     }
 
     public String verifyValuesPageTitle(){
+        TestUtils.waitForTitle(driver, "Day One - Values", 20);
         return driver.getTitle();
     }
 
@@ -62,26 +64,49 @@ public class ValuesPage extends TestBase {
 
     // Method to fill thrive value
     public void fillThrive(String tri) {
-        TestUtils.waitForElementVisibility(driver, thrive, 4);
+        TestUtils.scrollToElement(driver, thrive);
+        if (!thrive.getText().isEmpty()) {
+            thrive.sendKeys(Keys.CONTROL + "a");  // Select all text
+            thrive.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
+        }
         thrive.sendKeys(tri);
 
     }
 
     // Method to fill diversify value
     public void fillDiversify(String div) {
-        TestUtils.waitForElementVisibility(driver, diversify, 4);
+        TestUtils.scrollToElement(driver, diversify);
+
+        if (!diversify.getText().isEmpty()) {
+            diversify.sendKeys(Keys.CONTROL + "a");  // Select all text
+            diversify.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
+        }
+
         diversify.sendKeys(div);
     }
 
     // Method to fill support value
     public void fillSupport(String supp) {
-        TestUtils.waitForElementVisibility(driver, support, 4);
+        TestUtils.scrollToElement(driver, support);
+
+        if (!support.getText().isEmpty()) {
+            support.sendKeys(Keys.CONTROL + "a");  // Select all text
+            support.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
+        }
+
         support.sendKeys(supp);
     }
 
     // Method to fill future value
     public void fillFuture(String fut) {
-        TestUtils.waitForElementVisibility(driver, future, 4);
+
+        TestUtils.scrollToElement(driver, future);
+
+        if (!future.getText().isEmpty()) {
+            future.sendKeys(Keys.CONTROL + "a");  // Select all text
+            future.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
+        }
+
         future.sendKeys(fut);
     }
 

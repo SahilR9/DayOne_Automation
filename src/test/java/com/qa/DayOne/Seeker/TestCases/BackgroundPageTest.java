@@ -27,6 +27,24 @@ public class BackgroundPageTest extends TestBase {
 
     }
 
+
+    private Map<String, String> loadTestData() {
+        Map<String, String> data = new LinkedHashMap<>();
+        data.put("companyStory", pr.getProperty("companyStory"));
+        data.put("products", pr.getProperty("products"));
+        data.put("customerHelp", pr.getProperty("customerHelp"));
+        data.put("uniqueFeature", pr.getProperty("uniqueFeature"));
+        data.put("awardTitle", pr.getProperty("awardTitle"));
+        data.put("awardIssueDate", pr.getProperty("awardIssueDate"));
+        data.put("awardDescription", pr.getProperty("awardDescription"));
+        data.put("linkedInUrl", pr.getProperty("linkedInUrl"));
+        data.put("xUrl", pr.getProperty("xUrl"));
+        data.put("facebookUrl", pr.getProperty("facebookUrl"));
+        data.put("instagramUrl", pr.getProperty("instagramUrl"));
+        data.put("tiktokUrl", pr.getProperty("tiktokUrl"));
+        return data;
+    }
+
     @BeforeMethod
     public void setUp() throws IOException {
         initialisation();
@@ -37,30 +55,20 @@ public class BackgroundPageTest extends TestBase {
         valuesPage = new ValuesPage();
         softAssert = new SoftAssert();
 
+
         // Load test data into HashMap
-        testData = new LinkedHashMap<>();
-        testData.put("companyStory", pr.getProperty("companyStory"));
-        testData.put("products", pr.getProperty("products"));
-        testData.put("customerHelp", pr.getProperty("customerHelp"));
-        testData.put("uniqueFeature", pr.getProperty("uniqueFeature"));
-        testData.put("awardTitle", pr.getProperty("awardTitle"));
-        testData.put("awardIssueDate", pr.getProperty("awardIssueDate"));
-        testData.put("awardDescription", pr.getProperty("awardDescription"));
-        testData.put("linkedInUrl", pr.getProperty("linkedInUrl"));
-        testData.put("xUrl", pr.getProperty("xUrl"));
-        testData.put("facebookUrl", pr.getProperty("facebookUrl"));
-        testData.put("instagramUrl", pr.getProperty("instagramUrl"));
-        testData.put("tiktokUrl", pr.getProperty("tiktokUrl"));
+        testData = loadTestData();
+
 
     }
 
-    @Test(priority = 1, enabled = false)
+    @Test(priority = 1)
     public void verifyBackgroundPageFormFillupTest() {
-
 
         backgroundPage = dashboardpage.clickOnBackgroundPage();
         String title = backgroundPage.verifyBackgroundPageTitle();
-        softAssert.assertEquals(title, "Day One", "Login page title matches!");
+        softAssert.assertEquals(title, "Day One - Background", "Login page title matches!");
+
 
         for (Map.Entry<String, String> entry : testData.entrySet()) {
             String fieldKey = entry.getKey();
@@ -69,7 +77,7 @@ public class BackgroundPageTest extends TestBase {
             switch (fieldKey) {
                 case "companyStory":
                     backgroundPage.fillCompanyStory(expectedValue);
-                    softAssert.assertEquals(backgroundPage.getCompanyStory(), expectedValue, "Company Story mismatch!");
+                    softAssert.assertEquals(backgroundPage.getCompanyStory(), expectedValue, "Co smatch!");
                     break;
                 case "products":
                     backgroundPage.fillProducts(expectedValue);
@@ -125,11 +133,12 @@ public class BackgroundPageTest extends TestBase {
 
     @Test(priority = 2)
 
-        public void verifyBackgroundPageFormAndNaviagteValues() {
+        public void verifyBackgroundPageFormAndNaviagteValuesTest() {
 
         backgroundPage = dashboardpage.clickOnBackgroundPage();
-        String backtitle = backgroundPage.verifyBackgroundPageTitle();
-        softAssert.assertEquals(backtitle, "Day One", "Login page title matches!");
+        String title = backgroundPage.verifyBackgroundPageTitle();
+        softAssert.assertEquals(title, "Day One - Background", "Login page title matches!");
+
 
         for (Map.Entry<String, String> entry : testData.entrySet()) {
             String fieldKey = entry.getKey();
@@ -191,7 +200,7 @@ public class BackgroundPageTest extends TestBase {
 
             valuesPage = backgroundPage.backgroundContinue();
             String title1 = valuesPage.verifyValuesPageTitle();
-            softAssert.assertEquals(title1, "Day One", "Login page title matches!");
+            softAssert.assertEquals(title1, "Day One - Values", "Values Page Title didn't match!");
 
             boolean valuesButton = valuesPage.verifyValuesButton();
             softAssert.assertTrue(valuesButton, "Dashboard button is not visible");

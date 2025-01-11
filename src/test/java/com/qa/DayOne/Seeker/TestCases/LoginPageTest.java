@@ -36,9 +36,9 @@ public class LoginPageTest extends TestBase {
     }
 
     @Test(priority = 1)
-    public void loginPageTitle(){
+    public void loginPageTitleTest(){
         String title = loginPage.validateLoginPageTitle();
-        softAssert.assertEquals(title, "Day One", "Login page title matches!");
+        softAssert.assertEquals(title, "Day One - Login", "Login page title matches!");
         softAssert.assertAll();
     }
 
@@ -46,7 +46,7 @@ public class LoginPageTest extends TestBase {
     public void loginTest() throws InterruptedException, IOException {
         dashboardpage = loginPage.login(pr.getProperty("email"), pr.getProperty("password"));
         String title = dashboardpage.verifyDashboardPageTitle();
-        softAssert.assertEquals(title, "Day One", "Login page title matches!");
+        softAssert.assertEquals(title, "Day One - Dashboard", "Dashboard title didn't match!");
         softAssert.assertAll();
 
     }

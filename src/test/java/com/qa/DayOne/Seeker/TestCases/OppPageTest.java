@@ -33,6 +33,36 @@ public class OppPageTest extends TestBase {
 
     }
 
+    private Map<String, String> loadTestData() {
+        Map<String, String> data = new LinkedHashMap<>();
+        String currentDateTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String dynamicTitle = pr.getProperty("opptitle").replace("${currentDateTime}", currentDateTime);
+        data.put("title", dynamicTitle);
+        data.put("location", pr.getProperty("location"));
+        data.put("opportunityType", pr.getProperty("opportunityType"));
+        data.put("workShift", pr.getProperty("workShift"));
+        data.put("workArrangement", pr.getProperty("workArrangement"));
+        data.put("workHours", pr.getProperty("workHours"));
+        data.put("skill1", pr.getProperty("skill1"));
+        data.put("skill2", pr.getProperty("skill2"));
+        data.put("contactName", pr.getProperty("contactName"));
+        data.put("contactEmail", pr.getProperty("contactEmail"));
+        data.put("opportunityDuration", pr.getProperty("opportunityDuration"));
+        data.put("totalPositions", pr.getProperty("totalPositions"));
+        data.put("jobDescription", pr.getProperty("jobDescription"));
+        data.put("listOfResponsibilities", pr.getProperty("listOfResponsibilities"));
+        data.put("salaryFrom", pr.getProperty("salaryFrom"));
+        data.put("salaryTo", pr.getProperty("salaryTo"));
+        data.put("numberOfHolidays", pr.getProperty("numberOfHolidays"));
+        data.put("benefit1", pr.getProperty("benefit1"));
+        data.put("benefit2", pr.getProperty("benefit2"));
+        data.put("qualification1", pr.getProperty("qualification1"));
+        data.put("qualification2", pr.getProperty("qualification2"));
+        data.put("qualificationStage1", pr.getProperty("qualificationStage1"));
+        data.put("additionalComments", pr.getProperty("additionalComments"));
+        return data;
+    }
+
     @BeforeMethod
     public void setUp() throws IOException {
         initialisation();
@@ -45,33 +75,9 @@ public class OppPageTest extends TestBase {
         dashboardpage = new DashboardPage();
         oppPage = new OppPage();
 
-        // Load test data from config.properties using pr.getProperty()
-        testData = new LinkedHashMap<>();
-        String currentDateTime = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String dynamicTitle = pr.getProperty("opptitle").replace("${currentDateTime}", currentDateTime);
-        testData.put("title", dynamicTitle);
-        testData.put("location", pr.getProperty("location"));
-        testData.put("opportunityType", pr.getProperty("opportunityType"));
-        testData.put("workShift", pr.getProperty("workShift"));
-        testData.put("workArrangement", pr.getProperty("workArrangement"));
-        testData.put("workHours", pr.getProperty("workHours"));
-        testData.put("skill1", pr.getProperty("skill1"));
-        testData.put("skill2", pr.getProperty("skill2"));
-        testData.put("contactName", pr.getProperty("contactName"));
-        testData.put("contactEmail", pr.getProperty("contactEmail"));
-        testData.put("opportunityDuration", pr.getProperty("opportunityDuration"));
-        testData.put("totalPositions", pr.getProperty("totalPositions"));
-        testData.put("jobDescription", pr.getProperty("jobDescription"));
-        testData.put("listOfResponsibilities", pr.getProperty("listOfResponsibilities"));
-        testData.put("salaryFrom", pr.getProperty("salaryFrom"));
-        testData.put("salaryTo", pr.getProperty("salaryTo"));
-        testData.put("numberOfHolidays", pr.getProperty("numberOfHolidays"));
-        testData.put("benefit1", pr.getProperty("benefit1"));
-        testData.put("benefit2", pr.getProperty("benefit2"));
-        testData.put("qualification1", pr.getProperty("qualification1"));
-        testData.put("qualification2", pr.getProperty("qualification2"));
-        testData.put("qualificationStage1", pr.getProperty("qualificationStage1"));
-        testData.put("additionalComments", pr.getProperty("additionalComments"));
+        // Load test data
+        testData = loadTestData();
+
 
         TestUtils.opportunityName = testData.get("title"); // Assign value to the global variable
 
@@ -80,12 +86,15 @@ public class OppPageTest extends TestBase {
     }
 
     @Test(priority = 1)
-    public void verifyFillOppPageTest(){
+    public void verifyFillOppPageTest() throws InterruptedException {
 
+        String dashboardtitle = dashboardpage.verifyDashboardPageTitle();
+        softAssert.assertEquals(dashboardtitle, "Day One - Dashboard", "Dashboard title didn't match!");
 
         oppPage = dashboardpage.clickOnCreateNewOpp();
-        String titleBackground = oppPage.verifyOppPageTitle();
-        softAssert.assertEquals(titleBackground, "Day One", "Login page title matches!");
+        String oppPageTitleBackground = oppPage.verifyOppPageTitle();
+        softAssert.assertEquals(oppPageTitleBackground, "Day One - Create Opportunity", "Opp page title didn't match!");
+
 
 
         for (Map.Entry<String, String> entry : testData.entrySet()) {
@@ -103,20 +112,24 @@ public class OppPageTest extends TestBase {
                     softAssert.assertEquals(oppPage.getLocation(), expectedValue, "Location input field did not match!");
                     break;
                 case "opportunityType":
-                    oppPage.selectOpportunityType(expectedValue);
-                    softAssert.assertTrue(oppPage.getOppTypeRadio().isSelected(), "Opportunity Type Radio button not selected");
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement oppTypeRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(oppTypeRadio.isSelected(), "Opportunity Type Radio button not selected");
                     break;
                 case "workShift":
-                    oppPage.selectWorkShift(expectedValue);
-                    softAssert.assertTrue(oppPage.getWorkShiftRadio().isSelected(), "Work Shift Radio button not selected");
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement WorkShiftRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(WorkShiftRadio.isSelected(), "Work Shift Radio button not selected");
                     break;
                 case "workArrangement":
-                    oppPage.selectWorkArrangement(expectedValue);
-                    softAssert.assertTrue(oppPage.getWorkArrangementRadio().isSelected(), "Work Arrangement Radio button not selected");
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement WorkArrangementRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(WorkArrangementRadio.isSelected(), "Work Arrangement Radio button not selected");
                     break;
                 case "workHours":
-                    oppPage.selectWorkHours(expectedValue);
-                    softAssert.assertTrue(oppPage.getWorkHoursRadio().isSelected(), "Work Hours Radio button not selected");
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement WorkHoursRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(WorkHoursRadio.isSelected(), "Work Hours Radio button not selected");
                     break;
                 case "skill1":
                     oppPage.selectSkills(expectedValue, testData.get("skill2"));
@@ -199,7 +212,7 @@ public class OppPageTest extends TestBase {
         oppPage.clickPublish();
 
         String dashboartitle = dashboardpage.verifyDashboardPageTitle();
-        softAssert.assertEquals(dashboartitle, "Day One", "DashboardPage title didn't match!");
+        softAssert.assertEquals(dashboartitle, "Day One - Dashboard", "DashboardPage title didn't match!");
 
         boolean dashnav = dashboardpage.verifyDashboardNav();
         softAssert.assertTrue(dashnav, "Dashboard button is not visible");
@@ -216,12 +229,15 @@ public class OppPageTest extends TestBase {
     }
 
     @Test(priority = 2, enabled = false)
-    public void verifyFillOppPageAfterCreate(){
+    public void  verifyFillOppPageAfterCreateTest() throws InterruptedException {
 
+        String dashboardtitle = dashboardpage.verifyDashboardPageTitle();
+        softAssert.assertEquals(dashboardtitle, "Day One - Dashboard", "Dashboard title didn't match!");
 
         oppPage = dashboardpage.clickOnCreateNewOpp();
-        String titleBackground = oppPage.verifyOppPageTitle();
-        softAssert.assertEquals(titleBackground, "Day One", "Login page title matches!");
+        String oppPageTitleBackground = oppPage.verifyOppPageTitle();
+        softAssert.assertEquals(oppPageTitleBackground, "Day One - Create Opportunity", "Opp page title didn't match!");
+
 
         for (Map.Entry<String, String> entry : testData.entrySet()) {
             String fieldKey = entry.getKey();
@@ -238,20 +254,24 @@ public class OppPageTest extends TestBase {
                     softAssert.assertEquals(oppPage.getLocation(), expectedValue, "Location input field did not match!");
                     break;
                 case "opportunityType":
-                    oppPage.selectOpportunityType(expectedValue);
-                    softAssert.assertTrue(oppPage.getOppTypeRadio().isSelected(), "Opportunity Type Radio button not selected");
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement oppTypeRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(oppTypeRadio.isSelected(), "Opportunity Type Radio button not selected");
                     break;
                 case "workShift":
-                    oppPage.selectWorkShift(expectedValue);
-                    softAssert.assertTrue(oppPage.getWorkShiftRadio().isSelected(), "Work Shift Radio button not selected");
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement WorkShiftRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(WorkShiftRadio.isSelected(), "Work Shift Radio button not selected");
                     break;
                 case "workArrangement":
-                    oppPage.selectWorkArrangement(expectedValue);
-                    softAssert.assertTrue(oppPage.getWorkArrangementRadio().isSelected(), "Work Arrangement Radio button not selected");
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement WorkArrangementRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(WorkArrangementRadio.isSelected(), "Work Arrangement Radio button not selected");
                     break;
                 case "workHours":
-                    oppPage.selectWorkHours(expectedValue);
-                    softAssert.assertTrue(oppPage.getWorkHoursRadio().isSelected(), "Work Hours Radio button not selected");
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement WorkHoursRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(WorkHoursRadio.isSelected(), "Work Hours Radio button not selected");
                     break;
                 case "skill1":
                     oppPage.selectSkills(expectedValue, testData.get("skill2"));
@@ -333,7 +353,7 @@ public class OppPageTest extends TestBase {
         oppPage.clickPublish();
 
         String dashboartitle = dashboardpage.verifyDashboardPageTitle();
-        softAssert.assertEquals(dashboartitle, "Day One", "DashboardPage title didn't match!");
+        softAssert.assertEquals(dashboartitle, "Day One - Dashboard", "DashboardPage title didn't match!");
 
         boolean dashnav = dashboardpage.verifyDashboardNav();
         softAssert.assertTrue(dashnav, "Dashboard button is not visible");
@@ -351,12 +371,14 @@ public class OppPageTest extends TestBase {
 
 
     @Test(priority = 3, enabled = false)
-    public void verifyFillOppPageMandatoryFields(){
+    public void verifyFillOppPageMandatoryFieldsTest()  {
 
+        String dashboardtitle = dashboardpage.verifyDashboardPageTitle();
+        softAssert.assertEquals(dashboardtitle, "Day One - Dashboard", "Dashboard title didn't match!");
 
         oppPage = dashboardpage.clickOnCreateNewOpp();
-        String titleBackground = oppPage.verifyOppPageTitle();
-        softAssert.assertEquals(titleBackground, "Day One", "Login page title matches!");
+        String oppPageTitleBackground = oppPage.verifyOppPageTitle();
+        softAssert.assertEquals(oppPageTitleBackground, "Day One - Create Opportunity", "Opp page title didn't match!");
 
         for (Map.Entry<String, String> entry : testData.entrySet()) {
             String fieldKey = entry.getKey();
@@ -382,29 +404,33 @@ public class OppPageTest extends TestBase {
                 case "opportunityType":
                     oppPage.clickPublish();
                     softAssert.assertEquals(oppPage.oppTypeToast(), "Opportunity type is required.", "Opportunity type toast mismatch!");
-                    oppPage.selectOpportunityType(expectedValue);
-                    softAssert.assertTrue(oppPage.getOppTypeRadio().isSelected(), "Opportunity Type radio button not selected.");
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement oppTypeRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(oppTypeRadio.isSelected(), "Opportunity Type Radio button not selected");
                     break;
 
                 case "workShift":
                     oppPage.clickPublish();
                     softAssert.assertEquals(oppPage.workShiftToast(), "Working shift is required.", "Work Shift toast mismatch!");
-                    oppPage.selectWorkShift(expectedValue);
-                    softAssert.assertTrue(oppPage.getWorkShiftRadio().isSelected(), "Work Shift radio button not selected.");
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement workShiftRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(workShiftRadio.isSelected(), "Work Shift radio button not selected.");
                     break;
 
                 case "workArrangement":
                     oppPage.clickPublish();
                     softAssert.assertEquals(oppPage.workArrangementToast(), "Working arrangement is required.", "Work Arrangement toast mismatch!");
-                    oppPage.selectWorkArrangement(expectedValue);
-                    softAssert.assertTrue(oppPage.getWorkArrangementRadio().isSelected(), "Work Arrangement radio button not selected.");
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement workArrangementRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(workArrangementRadio.isSelected(), "Work Arrangement radio button not selected.");
                     break;
 
                 case "workHours":
                     oppPage.clickPublish();
                     softAssert.assertEquals(oppPage.workHoursToast(), "Working hours are required.", "Work Hours toast mismatch!");
-                    oppPage.selectWorkHours(expectedValue);
-                    softAssert.assertTrue(oppPage.getWorkHoursRadio().isSelected(), "Work Hours radio button not selected.");
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement workHoursRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(workHoursRadio.isSelected(), "Work Hours radio button not selected.");
                     break;
 
                 case "skill1":
@@ -528,7 +554,7 @@ public class OppPageTest extends TestBase {
         oppPage.clickPublish();
 
         String dashboartitle = dashboardpage.verifyDashboardPageTitle();
-        softAssert.assertEquals(dashboartitle, "Day One", "DashboardPage title didn't match!");
+        softAssert.assertEquals(dashboartitle, "Day One - Dashboard", "DashboardPage title didn't match!");
 
         boolean dashnav = dashboardpage.verifyDashboardNav();
         softAssert.assertTrue(dashnav, "Dashboard button is not visible");
@@ -545,16 +571,15 @@ public class OppPageTest extends TestBase {
     }
 
     @Test(priority = 4, enabled = false)
-    public void verifyFillOppPageAndSaveAsDraftTest(){
+    public void verifyFillOppPageAndSaveAsDraftTest() throws InterruptedException {
 
+        String dashboardtitle = dashboardpage.verifyDashboardPageTitle();
+        softAssert.assertEquals(dashboardtitle, "Day One - Dashboard", "Dashboard title didn't match!");
 
         oppPage = dashboardpage.clickOnCreateNewOpp();
-        String titleBackground = oppPage.verifyOppPageTitle();
-        softAssert.assertEquals(titleBackground, "Day One", "Login page title matches!");
+        String oppPageTitleBackground = oppPage.verifyOppPageTitle();
+        softAssert.assertEquals(oppPageTitleBackground, "Day One - Create Opportunity", "Opp page title didn't match!");
 
-        // Step 1: Enter Title
-
-        TestUtils.opportunityName = testData.get("title"); // Assign value to the global variable
 
         for (Map.Entry<String, String> entry : testData.entrySet()) {
             String fieldKey = entry.getKey();
@@ -571,24 +596,28 @@ public class OppPageTest extends TestBase {
                     softAssert.assertEquals(oppPage.getLocation(), expectedValue, "Location input field did not match!");
                     break;
                 case "opportunityType":
-                    oppPage.selectOpportunityType(expectedValue);
-                    softAssert.assertTrue(oppPage.getOppTypeRadio().isSelected(), "Opportunity Type Radio button not selected");
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement oppTypeRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(oppTypeRadio.isSelected(), "Opportunity Type Radio button not selected");
                     break;
                 case "workShift":
-                    oppPage.selectWorkShift(expectedValue);
-                    softAssert.assertTrue(oppPage.getWorkShiftRadio().isSelected(), "Work Shift Radio button not selected");
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement WorkShiftRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(WorkShiftRadio.isSelected(), "Work Shift Radio button not selected");
                     break;
                 case "workArrangement":
-                    oppPage.selectWorkArrangement(expectedValue);
-                    softAssert.assertTrue(oppPage.getWorkArrangementRadio().isSelected(), "Work Arrangement Radio button not selected");
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement WorkArrangementRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(WorkArrangementRadio.isSelected(), "Work Arrangement Radio button not selected");
                     break;
                 case "workHours":
-                    oppPage.selectWorkHours(expectedValue);
-                    softAssert.assertTrue(oppPage.getWorkHoursRadio().isSelected(), "Work Hours Radio button not selected");
+                    oppPage.selectRadioButton(expectedValue);
+                    WebElement WorkHoursRadio = oppPage.getRadioButton(expectedValue);
+                    softAssert.assertTrue(WorkHoursRadio.isSelected(), "Work Hours Radio button not selected");
                     break;
                 case "skill1":
                     oppPage.selectSkills(expectedValue, testData.get("skill2"));
-                    softAssert.assertEquals(oppPage.getskillvalue1(expectedValue), expectedValue, "Core Value 1 mismatch!");
+                    softAssert.assertEquals(oppPage.getskillvalue1(expectedValue), expectedValue, "Skill 1 mismatch!");
                     break;
                 case "skill2":
                     softAssert.assertEquals(oppPage.getskillvalue2(expectedValue), expectedValue, "Skill 2 mismatch!");
@@ -666,13 +695,18 @@ public class OppPageTest extends TestBase {
         oppPage.clickSaveAsDraft();
 
         String dashboartitle = dashboardpage.verifyDashboardPageTitle();
-        softAssert.assertEquals(dashboartitle, "Day One", "DashboardPage title didn't match!");
+        softAssert.assertEquals(dashboartitle, "Day One - Dashboard", "DashboardPage title didn't match!");
 
         boolean dashnav = dashboardpage.verifyDashboardNav();
         softAssert.assertTrue(dashnav, "Dashboard button is not visible");
 
         boolean draftcreatetoast = dashboardpage.verifySaveAsDraftCreatedToast();
         softAssert.assertTrue(draftcreatetoast, "Draft Toast is not visible");
+
+
+
+        boolean viewOppButton = dashboardpage.viewCreateNewOppButton();
+        softAssert.assertTrue(viewOppButton, "Opp Button is not visisble");
 
 
 

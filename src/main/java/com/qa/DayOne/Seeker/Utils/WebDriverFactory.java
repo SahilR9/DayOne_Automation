@@ -10,6 +10,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 public class WebDriverFactory {
 
@@ -33,6 +34,9 @@ public class WebDriverFactory {
         WebDriverEventListener eventListener = new WebDriverEventListener(driver);
         EventFiringDecorator<WebDriver> decorator = new EventFiringDecorator<>(eventListener);
         return decorator.decorate(driver);
+
+
+
     }
 
     private ChromeOptions getChromeOptions() {

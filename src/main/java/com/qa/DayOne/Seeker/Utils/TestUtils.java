@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
+import java.util.function.Function;
 
 public class TestUtils extends TestBase {
 
@@ -24,7 +25,7 @@ public class TestUtils extends TestBase {
         File scrFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 
         // Define the directory path for saving screenshots
-        String currentDir = System.getProperty("user.dir") + "//screenshots//";
+        String currentDir = System.getProperty("user.dir") + File.separator + "screenshots" + File.separator;
         File screenshotDir = new File(currentDir);
 
         // Create the directory if it doesn't exist
@@ -43,6 +44,15 @@ public class TestUtils extends TestBase {
         } catch (IOException e) {
             System.err.println("Failed to save screenshot: " + e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    public static void logAndTakeScreenshot(String logMessage) {
+        System.out.println(logMessage); // Log the message to the console or test report
+        try {
+            TestUtils.takeScreenshotAtEndOfTest(driver); // Existing method that takes only the driver
+        } catch (IOException ioException) {
+            System.err.println("Failed to capture screenshot: " + ioException.getMessage());
         }
     }
 
@@ -79,15 +89,13 @@ public class TestUtils extends TestBase {
     public static String getSelectedDropdownValue(WebDriver driver, String expectedValue) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-        try {
+
             // Wait until the dropdown option with the specific value is visible
             WebElement selectedOption = wait.until(ExpectedConditions.visibilityOfElementLocated(
                     By.xpath("//span[text()='" + expectedValue + "']")
             ));
             return selectedOption.getText();
-        } catch (TimeoutException e) {
-            throw new NoSuchElementException("Could not find the selected option with title: " + expectedValue);
-        }
+
     }
 
 
@@ -99,6 +107,13 @@ public class TestUtils extends TestBase {
         element.sendKeys(value);
     }
 
+    public static void scrollToElement(WebDriver driver, WebElement element) {
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
+//        wait.until(ExpectedConditions.visibilityOf(element)); // Wait for visibility
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});", element);
+    }
+
+
 
     // Explicit wait for an element to be visible
     public static void waitForElementVisibility(WebDriver driver, WebElement element, int timeoutInSeconds) {
@@ -108,6 +123,11 @@ public class TestUtils extends TestBase {
         } catch (TimeoutException e) {
             System.out.println("Timeout: Element not visible after waiting for " + timeoutInSeconds + " seconds");
         }
+    }
+
+    public static void waitForTitle(WebDriver driver, String expectedTitle, int timeoutInSeconds) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds));
+        wait.until(ExpectedConditions.titleIs(expectedTitle));
     }
 
     public static WebElement waitForElementPresence(WebDriver driver, By locator, int timeoutInSeconds) {
@@ -162,10 +182,6 @@ public class TestUtils extends TestBase {
             System.out.println("Timeout: Alert not present after " + timeoutInSeconds + " seconds.");
         }
     }
-
-
-
-
 
 
 }

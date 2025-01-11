@@ -2,9 +2,8 @@ package com.qa.DayOne.Seeker.Pages;
 
 import com.qa.DayOne.Seeker.Utils.TestUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -14,14 +13,12 @@ public class DashboardPage {
 
 
 
-    @FindBy(xpath = "//button[text()='Create new opportunity']")
-    WebElement createNewOppBlankPage;
+    @FindBy(xpath = "//button[@id='createNewOpportunity']")
+    WebElement createNewOpp;
 
-    @FindBy (id = "createNewOpportunity")
-    WebElement createNewOppAfterCreate;
-
-    @FindBy(xpath = "(//button[@id='viewOpportunity'])[1]")
+    @FindBy(id = "viewOpportunity")
     WebElement viewMatch;
+
 
     @FindBy(xpath = "//div[@title='Past']")
     WebElement pastOpportunity;
@@ -54,29 +51,53 @@ public class DashboardPage {
     }
 
     public String verifyDashboardPageTitle(){
+        TestUtils.waitForTitle(driver, "Day One - Dashboard", 40);
 
         return driver.getTitle();
     }
 
     public boolean verifyOppName(String value){
         By oppNameLocator = By.xpath("//p[text()='" + value + "']");
-        WebElement oppName = TestUtils.waitForElementPresence(driver, oppNameLocator, 15);
+        WebElement oppName = TestUtils.waitForElementPresence(driver, oppNameLocator, 20);
         return  oppName.isDisplayed();
 
 
     }
 
+    public boolean viewMatchButton(){
+        TestUtils.waitForElementVisibility(driver, viewMatch, 30);
+        return viewMatch.isDisplayed();
+
+    }
+
     public boolean verifyOppCreatedToast(){
-        TestUtils.waitForElementVisibility(driver, oppCreatedToast, 5);
+        TestUtils.waitForElementVisibility(driver, oppCreatedToast, 10);
 
         return oppCreatedToast.isDisplayed();
 
     }
 
     public boolean verifySaveAsDraftCreatedToast(){
-        TestUtils.waitForElementVisibility(driver, saveAsDraftToast, 5);
+        TestUtils.waitForElementVisibility(driver, saveAsDraftToast, 10);
 
         return saveAsDraftToast.isDisplayed();
+
+    }
+
+    public OppViewMatches clickOnOppViewMatch(String value){
+        By opViewMatchLoc = By.xpath("//p[text()='" + value + "']//..//following-sibling::div[2]//button");
+
+        WebElement oppviewMatch = TestUtils.waitForElementPresence(driver, opViewMatchLoc, 10);
+
+        if (oppviewMatch != null) {
+            // Perform the click action using Actions
+            Actions actions = new Actions(driver);
+            actions.moveToElement(oppviewMatch).click().perform();
+        } else {
+            System.err.println("The three-dot element for the opportunity '" + value + "' was not found within the timeout period.");
+        }
+
+        return new OppViewMatches();
 
     }
 
@@ -96,42 +117,39 @@ public class DashboardPage {
     }
 
     public WebElement getDynamicLabel(String labelName) {
-        String dynamicXpath = "//h1[text()='" + labelName + "']";
+        String dynamicXpath = "(//h1[text()='" + labelName + "'])[1]";
         return driver.findElement(By.xpath(dynamicXpath));
     }
 
     public boolean verifyLabelName(String labelName) {
-        try {
-            return getDynamicLabel(labelName).isDisplayed();
-        } catch (NoSuchElementException e) {
-            return false;
-        }
-    }
+        TestUtils.waitForElementPresence(driver, By.xpath("(//h1[text()='" + labelName + "'])[1]"), 20);
 
-
-
-
-
-    public OppPage clickOnCreateNewOpp(){
-
-        try {
-            // Attempt to wait for the 'viewMatch' element to be visible
-            TestUtils.waitForElementVisibility(driver, viewMatch, 10);
-
-            // If 'viewMatch' is visible, click the appropriate button
-            if (viewMatch.isDisplayed()) {
-                TestUtils.waitForElementToBeClickable(driver, createNewOppAfterCreate, 5);
-                createNewOppAfterCreate.click();
-            }
-        } catch (NoSuchElementException | TimeoutException e) {
-            // Handle case when 'viewMatch' is not found (element is not yet in the DOM)
-            // Proceed with the 'createNewOppBlankPage' click as this happens before the element is visible
-            TestUtils.waitForElementToBeClickable(driver, createNewOppBlankPage, 5);
-            createNewOppBlankPage.click();
+        return getDynamicLabel(labelName).isDisplayed();
         }
 
+
+
+
+
+
+    public OppPage clickOnCreateNewOpp() {
+        TestUtils.waitForElementVisibility(driver, createNewOpp, 60);
+        TestUtils.waitForElementToBeClickable(driver, createNewOpp, 60);
+        createNewOpp.click();
         return new OppPage();
+        }
+
+
+    public boolean viewCreateNewOppButton() {
+        TestUtils.waitForElementVisibility(driver, createNewOpp, 50);
+
+        return createNewOpp.isDisplayed();
     }
+
+
+
+
+
 
 
     public PastOppPage clickOnPastOpportunity(){

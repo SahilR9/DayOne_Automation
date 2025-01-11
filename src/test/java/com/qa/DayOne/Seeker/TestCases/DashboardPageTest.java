@@ -52,13 +52,13 @@ public class DashboardPageTest extends TestBase {
     @Test(priority = 1)
     public void verifyDashboardPageTitleTest(){
         String title = dashboardpage.verifyDashboardPageTitle();
-        softAssert.assertEquals(title, "Day One", "Dashboard page title didn't match!");
+        softAssert.assertEquals(title, "Day One - Dashboard", "Dashboard page title didn't match!");
         softAssert.assertAll();
     }
 
     @Test(priority = 2)
     public void verifyUserNameTest() {
-        String labelToCheck = "Loop"; // Dynamic label value
+        String labelToCheck =pr.getProperty("labelName"); // Dynamic label value
         softAssert.assertTrue(dashboardpage.verifyLabelName(labelToCheck),
                 "Label with name '" + labelToCheck + "' is not displayed.");
         softAssert.assertAll();
@@ -70,7 +70,7 @@ public class DashboardPageTest extends TestBase {
         pastOpp = dashboardpage.clickOnPastOpportunity();
 
         String pageTitle = pastOpp.verifyPastOppPageTitle();
-        softAssert.assertEquals(pageTitle, "Day One", "Dashboard page title didn't match!");
+        softAssert.assertEquals(pageTitle, "Day One - Dashboard", "Dashboard page title didn't match!");
 
 
 
@@ -81,7 +81,7 @@ public class DashboardPageTest extends TestBase {
     public void verifyDraftOppClickTest(){
         draftOpp = dashboardpage.clickOnDraftOpportunity();
         String pageTitle = draftOpp.verifyDraftPageTitle();
-        softAssert.assertEquals(pageTitle, "Day One", "Dashboard page title didn't match!");
+        softAssert.assertEquals(pageTitle, "Day One - Dashboard", "Dashboard page title didn't match!");
 
     }
 
@@ -89,21 +89,21 @@ public class DashboardPageTest extends TestBase {
     public void verifyOppPageClickTest(){
         oppPage = dashboardpage.clickOnCreateNewOpp();
         String pageTitle = oppPage.verifyOppPageTitle();
-        softAssert.assertEquals(pageTitle, "Day One", "Dashboard page title didn't match!");
+        softAssert.assertEquals(pageTitle, "Day One - Create Opportunity", "Dashboard page title didn't match!");
     }
 
     @Test(priority = 6)
     public void verifyBackgroundPageClickTest(){
         backgroundPage = dashboardpage.clickOnBackgroundPage();
         String pageTitle = backgroundPage.verifyBackgroundPageTitle();
-        softAssert.assertEquals(pageTitle, "Day One", "Dashboard page title didn't match!");
+        softAssert.assertEquals(pageTitle, "Day One - Background", "Dashboard page title didn't match!");
     }
 
     @Test(priority = 7)
     public void verifyValuesPageClickTest(){
          valuesPage = dashboardpage.clickOnValuesPage();
         String pageTitle = valuesPage.verifyValuesPageTitle();
-        softAssert.assertEquals(pageTitle, "Day One", "Dashboard page title didn't match!");
+        softAssert.assertEquals(pageTitle, "Day One - Values", "Dashboard page title didn't match!");
     }
 
 

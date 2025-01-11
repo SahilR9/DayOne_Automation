@@ -2,6 +2,7 @@ package com.qa.DayOne.Seeker.Pages;
 
 import com.qa.DayOne.Seeker.Utils.TestUtils;
 import com.qa.DayOne.Seeker.base.TestBase;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,13 +19,18 @@ public class LoginPage extends TestBase {
     @FindBy(id = "loginButton")
     WebElement loginButton;
 
+    @FindBy(xpath = "//a[text()='Dashboard']")
+    WebElement dashboardbutton;
+
     public LoginPage(){
         PageFactory.initElements(driver, this);
 
     }
 
 
+
     public String validateLoginPageTitle(){
+        TestUtils.waitForTitle(driver, "Day One - Login", 20);
         return driver.getTitle();
     }
 
@@ -40,6 +46,8 @@ public class LoginPage extends TestBase {
         // Wait for the login button to be clickable and then click it
         TestUtils.waitForElementToBeClickable(driver, loginButton, 10);
         loginButton.click();
+
+
 
         return new DashboardPage();
     }

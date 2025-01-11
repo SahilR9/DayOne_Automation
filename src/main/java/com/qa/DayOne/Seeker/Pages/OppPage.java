@@ -4,11 +4,12 @@ import com.qa.DayOne.Seeker.Utils.TestUtils;
 import com.qa.DayOne.Seeker.base.TestBase;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.List;
 
 public class OppPage extends TestBase {
 
@@ -16,11 +17,23 @@ public class OppPage extends TestBase {
     @FindBy (id = "opportunityTitle")
     WebElement oppTitle;
 
-    @FindBy(xpath = "(//button[@type='button'])[6]")
+    @FindBy(id = "saveOpportunityTitle")
     WebElement titleTick;
+
+    @FindBy(id="closeOpportunityTitle")
+    WebElement titleCross;
+
+    @FindBy(xpath = "//span[text()='Seasonal Roles']")
+    WebElement Opptype;
+
+    @FindBy(xpath = "(//div[@class='pac-item'])[1]")
+    WebElement locDrop;
 
     @FindBy(xpath = "//input[@placeholder='Search for location']")
     WebElement location;
+
+    @FindBy(xpath = "//span[@class='ant-input-suffix']")
+    WebElement locationCross;
 
     public WebElement oppTypeRadio;
     public WebElement workShiftRadio;
@@ -162,18 +175,27 @@ public class OppPage extends TestBase {
 
     // Method to get a dynamic locator for radio buttons
     public By dynamicRadioButton(String value) {
-        return By.xpath("//input[@value='" + value + "']");
+        return By.xpath("//input[@id='" +value+ "']");
+    }
+
+    public WebElement commRadio(String radioButtonValue) {
+        By radioButtonLocator = dynamicRadioButton(radioButtonValue);
+        return driver.findElement(radioButtonLocator);
     }
 
 
 
+
+
+
     public String verifyOppPageTitle(){
+        TestUtils.waitForTitle(driver, "Day One - Create Opportunity", 20);
         return driver.getTitle();
     }
 
     public void enterTitle(String title) {
 
-        TestUtils.waitForElementVisibility(driver, oppTitle, 5);
+        TestUtils.waitForElementVisibility(driver, oppTitle, 10);
 
         if (!oppTitle.getAttribute("value").isEmpty()) {
             // If there is text, clear it by selecting all and backspacing
@@ -181,79 +203,35 @@ public class OppPage extends TestBase {
             oppTitle.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
         }
 
-        TestUtils.waitForElementVisibility(driver, oppTitle, 10);
+        TestUtils.waitForElementVisibility(driver, oppTitle, 5);
         oppTitle.sendKeys(title);
     }
 
     public void titleClick(){
-        TestUtils.waitForElementToBeClickable(driver, titleTick, 5);
-        titleTick.click();
+            TestUtils.waitForElementToBeClickable(driver, titleTick, 10);
+            titleTick.click();
+
     }
 
     public void enterLocation(String loc) {
         location.sendKeys(loc);
+        TestUtils.waitForElementVisibility(driver, locDrop,10);
         location.sendKeys(Keys.ENTER);
-        TestUtils.waitForTextToBePresentInElementValue(driver, location, loc, 3); // Wait for the entered text to be fully updated in the field
-        try {
-            // Check if the toast is displayed and wait for it to disappear
-            if (locationToast.isDisplayed()) {
-                TestUtils.waitForElementToDisappear(driver, locationToast, 4);
-            }
-        } catch (NoSuchElementException e) {
-            // Toast message not present; nothing to wait for
+//        TestUtils.scrollToElement(driver, Opptype, 10);
+
+
+        new Actions(driver).moveByOffset(0, 0).click().perform();
         }
+
+    public void selectRadioButton(String radioButtonValue) {
+//        By radioButtonLocator = dynamicRadioButton(radioButtonValue);
+        WebElement radioButton = commRadio(radioButtonValue);
+        TestUtils.scrollToElement(driver, radioButton);
+        radioButton.click();
     }
 
-
-    public void selectOpportunityType(String opportunityType) {
-        By radioButtonLocator = dynamicRadioButton(opportunityType);
-        oppTypeRadio = driver.findElement(radioButtonLocator);
-        TestUtils.waitForElementToBeClickable(driver, oppTypeRadio, 4);
-        if (!oppTypeRadio.isSelected()) {
-            oppTypeRadio.click();
-        }
-    }
-
-
-
-    public void selectWorkShift(String workShift) {
-        By radioButtonLocator = dynamicRadioButton(workShift);
-        workShiftRadio = driver.findElement(radioButtonLocator);
-        TestUtils.waitForElementToBeClickable(driver, workShiftRadio, 4);
-        if (!workShiftRadio.isSelected()) {
-            workShiftRadio.click();
-        }
-    }
-
-    public void selectWorkArrangement(String workArrangement) {
-        By radioButtonLocator = dynamicRadioButton(workArrangement);
-        workArrangementRadio = driver.findElement(radioButtonLocator);
-        TestUtils.waitForElementToBeClickable(driver, workArrangementRadio, 4);
-        if (!workArrangementRadio.isSelected()) {
-            workArrangementRadio.click();
-        }
-
-        try {
-            // Check if the toast is displayed and wait for it to disappear
-            if (workArrangementToast.isDisplayed()) {
-                TestUtils.waitForElementToDisappear(driver, workArrangementToast, 4);
-            }
-        } catch (NoSuchElementException e) {
-            // Toast message not present; nothing to wait for
-        }
-    }
-
-    public void selectWorkHours(String workHours) {
-        By radioButtonLocator = dynamicRadioButton(workHours);
-        workHoursRadio = driver.findElement(radioButtonLocator);
-        TestUtils.waitForElementToBeClickable(driver, workHoursRadio, 4);
-        if (!workHoursRadio.isSelected()) {
-            workHoursRadio.click();
-        }
-    }
 
     public void selectSkills(String skill1, String skill2) {
-        TestUtils.waitForElementVisibility(driver, skillsSearch, 5);
         skillsSearch.click();
         TestUtils.selectDropdownValue(skill1);
         TestUtils.selectDropdownValue(skill2);
@@ -261,7 +239,7 @@ public class OppPage extends TestBase {
     }
 
     public void enterContactName(String conName) {
-        TestUtils.waitForElementVisibility(driver, contactName, 5);
+        TestUtils.waitForElementVisibility(driver, contactName, 10);
 
         if (!contactName.getAttribute("value").isEmpty()) {
             contactName.sendKeys(Keys.CONTROL + "a");  // Select all text
@@ -274,33 +252,33 @@ public class OppPage extends TestBase {
 
     // Method to enter contact email
     public void enterContactEmail(String conEmail) {
-        TestUtils.waitForElementVisibility(driver, contactEmail, 5);
+        TestUtils.waitForElementVisibility(driver, contactEmail, 10);
 
         if (!contactEmail.getAttribute("value").isEmpty()) {
             contactEmail.sendKeys(Keys.CONTROL + "a");  // Select all text
             contactEmail.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
         }
 
-        TestUtils.waitForElementVisibility(driver, contactEmail, 5);
+        TestUtils.waitForElementVisibility(driver, contactEmail, 10);
         contactEmail.sendKeys(conEmail);
     }
 
     // Method to enter opportunity duration
     public void enterOpportunityDuration(String oppdu) {
-        TestUtils.waitForElementVisibility(driver, oppDuration, 5);
+        TestUtils.waitForElementVisibility(driver, oppDuration, 10);
 
         if (!oppDuration.getAttribute("value").isEmpty()) {
             oppDuration.sendKeys(Keys.CONTROL + "a");  // Select all text
             oppDuration.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
         }
 
-        TestUtils.waitForElementVisibility(driver, oppDuration, 5);
+        TestUtils.waitForElementVisibility(driver, oppDuration, 10);
         oppDuration.sendKeys(oppdu);
     }
 
     // Method to enter total positions
     public void enterTotalPositions(String totps) {
-        TestUtils.waitForElementVisibility(driver, totalPositions, 5);
+        TestUtils.waitForElementVisibility(driver, totalPositions, 10);
 
         if (!totalPositions.getAttribute("value").isEmpty()) {
             totalPositions.sendKeys(Keys.CONTROL + "a");  // Select all text
@@ -313,32 +291,32 @@ public class OppPage extends TestBase {
 
     // Method to enter job description
     public void enterJobDescription(String jodes) {
-        TestUtils.waitForElementVisibility(driver, jobDescription, 3);
+        TestUtils.waitForElementVisibility(driver, jobDescription, 10);
 
         if (!jobDescription.getText().isEmpty()) {
             jobDescription.sendKeys(Keys.CONTROL + "a");  // Select all text
             jobDescription.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
         }
 
-        TestUtils.waitForElementVisibility(driver, jobDescription, 3);
+        TestUtils.waitForElementVisibility(driver, jobDescription, 10);
         jobDescription.sendKeys(jodes);
     }
 
     // Method to enter list of responsibilities
     public void enterListOfResponsibilities(String list) {
-        TestUtils.waitForElementVisibility(driver, listofResp, 3);
+        TestUtils.waitForElementVisibility(driver, listofResp, 10);
 
         if (!listofResp.getText().isEmpty()) {
             listofResp.sendKeys(Keys.CONTROL + "a");  // Select all text
             listofResp.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
         }
 
-        TestUtils.waitForElementVisibility(driver, listofResp, 3);
+        TestUtils.waitForElementVisibility(driver, listofResp, 10);
         listofResp.sendKeys(list);
     }
 
     public void enterSalaryFrom(String salf) {
-        TestUtils.waitForElementVisibility(driver, salaryFrom, 3);
+        TestUtils.waitForElementVisibility(driver, salaryFrom, 10);
 
         if (!salaryFrom.getAttribute("value").isEmpty()) {
             salaryFrom.sendKeys(Keys.CONTROL + "a");  // Select all text
@@ -422,37 +400,37 @@ public class OppPage extends TestBase {
 
     // Method to enter stage 1 qualification
     public void enterStage1Qualification(String sta) {
-        TestUtils.waitForElementVisibility(driver, stage1, 3);
+        TestUtils.waitForElementVisibility(driver, stage1, 10);
 
         if (!stage1.getAttribute("value").isEmpty()) {
             stage1.sendKeys(Keys.CONTROL + "a");  // Select all text
             stage1.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
         }
 
-        TestUtils.waitForElementVisibility(driver, stage1, 3);
+        TestUtils.waitForElementVisibility(driver, stage1, 10);
         stage1.sendKeys(sta);
     }
 
     // Method to enter additional comments
     public void enterAdditionalComments(String addcom) {
-        TestUtils.waitForElementVisibility(driver, additionalComm, 3);
+        TestUtils.waitForElementVisibility(driver, additionalComm, 10);
 
         if (!additionalComm.getAttribute("value").isEmpty()) {
             additionalComm.sendKeys(Keys.CONTROL + "a");  // Select all text
             additionalComm.sendKeys(Keys.BACK_SPACE);     // Delete the selected text
         }
 
-        TestUtils.waitForElementVisibility(driver, additionalComm, 3);
+        TestUtils.waitForElementVisibility(driver, additionalComm, 10);
         additionalComm.sendKeys(addcom);
     }
 
     public void clickPublish() {
-        TestUtils.waitForElementToBeClickable(driver, oppPublish, 5);
+        TestUtils.waitForElementToBeClickable(driver, oppPublish, 10);
         oppPublish.click();
     }
 
     public void clickSaveAsDraft(){
-        TestUtils.waitForElementToBeClickable(driver, saveAsDraft, 5);
+        TestUtils.waitForElementToBeClickable(driver, saveAsDraft, 10);
         saveAsDraft.click();
 
     }
@@ -471,7 +449,7 @@ public class OppPage extends TestBase {
     }
 
     public String locationToast(){
-        TestUtils.waitForElementVisibility(driver, locationToast, 5);
+        TestUtils.waitForElementVisibility(driver, locationToast, 10);
         return locationToast.getText();
     }
 
@@ -486,13 +464,13 @@ public class OppPage extends TestBase {
     }
 
     public String workArrangementToast(){
-        TestUtils.waitForElementVisibility(driver, workArrangementToast, 6);
+        TestUtils.waitForElementVisibility(driver, workArrangementToast, 10);
         return workArrangementToast.getText();
     }
 
 
     public String workHoursToast(){
-        TestUtils.waitForElementVisibility(driver, workHoursToast, 6);
+        TestUtils.waitForElementVisibility(driver, workHoursToast, 10);
         return workHoursToast.getText();
     }
 
@@ -568,26 +546,14 @@ public class OppPage extends TestBase {
         return oppTitle.getAttribute("value"); //
     }
     public String getLocation() {
-        TestUtils.waitForElementVisibility(driver, location, 3);
+        TestUtils.waitForElementVisibility(driver, location, 10);
         return location.getAttribute("value"); // Assuming location is the WebElement for the location input
     }
 
-    public WebElement getOppTypeRadio() {
-        return oppTypeRadio;
-    }
-
-
-
-    public WebElement getWorkShiftRadio() {
-        return workShiftRadio;
-    }
-
-    public WebElement getWorkArrangementRadio() {
-        return workArrangementRadio;
-    }
-
-    public WebElement getWorkHoursRadio() {
-        return workHoursRadio;
+    public WebElement getRadioButton(String radioButtonValue) {
+//        By radioButtonLocator = dynamicRadioButton(radioButtonValue);
+        WebElement radioButton = commRadio(radioButtonValue);
+        return radioButton;
     }
 
     public String getskillvalue1(String skill1){

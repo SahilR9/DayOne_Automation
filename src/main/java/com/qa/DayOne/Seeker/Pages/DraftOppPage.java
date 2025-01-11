@@ -55,7 +55,7 @@ public class DraftOppPage extends TestBase {
     }
 
     public void clickOnEditDraft(){
-        TestUtils.waitForElementVisibility(driver, editDraftButton, 3);
+        TestUtils.waitForElementToBeClickable(driver, editDraftButton, 10);
         editDraftButton.click();
 
     }
@@ -63,24 +63,14 @@ public class DraftOppPage extends TestBase {
 
 
     public void clickOnDelete(){
-        TestUtils.waitForElementVisibility(driver, deleteButton, 3);
+        TestUtils.waitForElementVisibility(driver, deleteButton, 10);
 
         deleteButton.click();
     }
 
-    public void clickeditTitle(){
-        TestUtils.waitForElementToBeClickable(driver, editTitle, 7);
+    public void clickEditTitle(){
+        TestUtils.waitForElementToBeClickable(driver, editTitle, 10);
         editTitle.click();
     }
 
-    public void enterTitle(String title) {
-        TestUtils.waitForElementVisibility(driver, oppTitle, 10);
-        oppTitle.clear();
-        oppTitle.sendKeys(title);
-    }
-
-    public void clickPublish() {
-        TestUtils.waitForElementToBeClickable(driver, oppPublish, 5);
-        oppPublish.click();
-    }
 }
